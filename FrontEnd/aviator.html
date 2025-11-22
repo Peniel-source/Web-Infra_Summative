@@ -1,0 +1,349 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Airport Hub</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body class="dark-mode">
+
+<div id="app-container">
+    <header id="app-header">
+        <div class="header-brand">
+            <div class="brand-icon">✈️</div>
+            <div class="brand-info">
+                <h1 class="brand-title">penworks AIRPORT HUB</h1>
+                <p class="brand-subtitle">Real Time Flight Information & Best Route</p>
+            </div>
+        </div>
+        <div class="header-status">
+            <div class="live-clock">
+                <div class="clock-label">UTC</div>
+                <div id="utc-time" class="clock-time">--:--:--</div>
+            </div>
+            <div class="live-clock">
+                <div class="clock-label">Local</div>
+                <div id="local-time" class="clock-time">--:--:--</div>
+            </div>
+            <button id="theme-toggle" class="icon-btn" title="Toggle Theme">
+                <span id="sun-icon" class="hidden">☀️</span>
+                <span id="moon-icon">🌙</span>
+            </button>
+        </div>
+    </header>
+
+    <nav class="main-nav">
+        <button class="nav-btn active" data-section="board">
+            <span class="nav-icon">📋</span>
+            <span class="nav-label">Flight Board</span>
+        </button>
+        <button class="nav-btn" data-section="tracker">
+            <span class="nav-icon">🔍</span>
+            <span class="nav-label">Flight Tracker</span>
+        </button>
+        <button class="nav-btn" data-section="routes">
+            <span class="nav-icon">🗺️</span>
+            <span class="nav-label">Route Planner</span>
+        </button>
+        <button class="nav-btn" data-section="about">
+            <span class="nav-icon">ℹ️</span>
+            <span class="nav-label">About</span>
+        </button>
+    </nav>
+
+    <section id="board-section" class="content-section active">
+        <div class="section-container">
+            <div class="board-controls">
+                <div class="airport-selector">
+                    <label for="airport-search-input">Airport Code:</label>
+                    <input
+                            type="text"
+                            id="airport-search-input"
+                            class="search-input"
+                            placeholder="JFK, LHR, DXB..."
+                            maxlength="3"
+                    />
+                    <button id="airport-search-btn" class="primary-btn">Load Flights</button>
+                    <span class="hint-text">Try: JFK, LHR, DXB, SIN, LAX</span>
+                </div>
+                <div class="board-tabs">
+                    <button class="board-tab active" data-type="departures">Departures</button>
+                    <button class="board-tab" data-type="arrivals">Arrivals</button>
+                </div>
+                <button id="refresh-board" class="refresh-btn">
+                    <span class="refresh-icon">🔄</span> Refresh
+                </button>
+            </div>
+
+            <div id="flight-board" class="flight-board">
+                <div class="board-header">
+                    <div class="col-time">Time</div>
+                    <div class="col-flight">Flight</div>
+                    <div class="col-destination">Destination/From</div>
+                    <div class="col-airline">Airline</div>
+                    <div class="col-gate">Gate</div>
+                    <div class="col-status">Status</div>
+                </div>
+                <div id="board-content" class="board-content"></div>
+            </div>
+
+            <div class="airport-stats">
+                <div class="stat-box">
+                    <div class="stat-icon">🛫</div>
+                    <div class="stat-info">
+                        <div class="stat-value" id="total-departures">0</div>
+                        <div class="stat-label">Departures Today</div>
+                    </div>
+                </div>
+                <div class="stat-box">
+                    <div class="stat-icon">🛬</div>
+                    <div class="stat-info">
+                        <div class="stat-value" id="total-arrivals">0</div>
+                        <div class="stat-label">Arrivals Today</div>
+                    </div>
+                </div>
+                <div class="stat-box">
+                    <div class="stat-icon">⏱️</div>
+                    <div class="stat-info">
+                        <div class="stat-value" id="avg-delay">0 min</div>
+                        <div class="stat-label">Avg Delay</div>
+                    </div>
+                </div>
+                <div class="stat-box">
+                    <div class="stat-icon">✅</div>
+                    <div class="stat-info">
+                        <div class="stat-value" id="on-time-percent">0%</div>
+                        <div class="stat-label">On-Time</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="tracker-section" class="content-section">
+        <div class="section-container">
+            <div class="tracker-container">
+                <h2>Flight Status Tracker</h2>
+                <p class="tracker-subtitle">Track any flight in real-time by flight number</p>
+
+                <div class="tracker-search">
+                    <div class="search-group">
+                        <label for="flight-number-input">Flight Number</label>
+                        <input
+                                type="text"
+                                id="flight-number-input"
+                                class="tracker-input"
+                                placeholder="e.g., AA100, EK215, BA178"
+                        />
+                    </div>
+                    <button id="track-flight-btn" class="primary-btn large">Track Flight</button>
+                </div>
+
+                <div id="tracker-result" class="tracker-result hidden">
+                    <div class="flight-card">
+                        <div class="flight-card-header">
+                            <div class="airline-info">
+                                <div class="airline-logo" id="airline-logo">✈️</div>
+                                <div>
+                                    <h3 id="tracked-flight-number">--</h3>
+                                    <p id="tracked-airline">--</p>
+                                </div>
+                            </div>
+                            <div class="flight-status-badge" id="tracked-status-badge">
+                                <span id="tracked-status">--</span>
+                            </div>
+                        </div>
+
+                        <div class="flight-route">
+                            <div class="route-point">
+                                <div class="route-label">From</div>
+                                <div class="route-code" id="tracked-origin-code">---</div>
+                                <div class="route-name" id="tracked-origin-name">---</div>
+                            </div>
+                            <div class="route-line">
+                                <div class="route-plane">✈️</div>
+                            </div>
+                            <div class="route-point">
+                                <div class="route-label">To</div>
+                                <div class="route-code" id="tracked-dest-code">---</div>
+                                <div class="route-name" id="tracked-dest-name">---</div>
+                            </div>
+                        </div>
+
+                        <div class="aircraft-info">
+                            <div class="aircraft-badge">
+                                <span class="aircraft-icon" id="aircraft-icon">✈️</span>
+                                <span class="aircraft-type" id="tracked-aircraft">---</span>
+                            </div>
+                        </div>
+
+                        <div class="flight-details-grid">
+                            <div class="detail-item">
+                                <div class="detail-icon">🛫</div>
+                                <div class="detail-content">
+                                    <div class="detail-label">Departure</div>
+                                    <div class="detail-value" id="tracked-departure">--:--</div>
+                                </div>
+                            </div>
+                            <div class="detail-item">
+                                <div class="detail-icon">🛬</div>
+                                <div class="detail-content">
+                                    <div class="detail-label">Arrival</div>
+                                    <div class="detail-value" id="tracked-arrival">--:--</div>
+                                </div>
+                            </div>
+                            <div class="detail-item">
+                                <div class="detail-icon">🚪</div>
+                                <div class="detail-content">
+                                    <div class="detail-label">Gate</div>
+                                    <div class="detail-value" id="tracked-gate">---</div>
+                                </div>
+                            </div>
+                            <div class="detail-item">
+                                <div class="detail-icon">🏢</div>
+                                <div class="detail-content">
+                                    <div class="detail-label">Terminal</div>
+                                    <div class="detail-value" id="tracked-terminal">---</div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div id="tracker-empty" class="empty-state">
+                    <div class="empty-icon">🔍</div>
+                    <h3>Track Your Flight</h3>
+                    <p>Enter a flight number above to get real-time status, gate information, and aircraft details.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="routes-section" class="content-section">
+        <div class="section-container">
+            <div class="route-planner">
+                <h2>Flight Route Optimizer</h2>
+                <div class="route-form">
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label>From (Airport Code):</label>
+                            <input
+                                    type="text"
+                                    id="origin-input"
+                                    class="route-select"
+                                    placeholder="e.g., JFK, LHR, DXB"
+                                    maxlength="3"
+                            />
+                        </div>
+                        <div class="swap-icon" id="swap-routes">⇄</div>
+                        <div class="form-group">
+                            <label>To (Airport Code):</label>
+                            <input
+                                    type="text"
+                                    id="destination-input"
+                                    class="route-select"
+                                    placeholder="e.g., LAX, CDG, SIN"
+                                    maxlength="3"
+                            />
+                        </div>
+                    </div>
+                    <button id="find-routes-btn" class="primary-btn large">Find Optimal Routes</button>
+                </div>
+
+                <div id="route-results" class="route-results hidden">
+                    <h3>Available Routes</h3>
+                    <div id="routes-list" class="routes-list"></div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="about-section" class="content-section">
+        <div class="section-container">
+            <div class="about-content">
+                <h2>About Airport Hub</h2>
+
+                <div class="about-card">
+                    <h3>Penworks Airport Hub</h3>
+                    <p>A real-time flight information system providing live flight tracking, status monitoring, and optimized route planning. Built for travelers and aviation enthusiasts.</p>
+                </div>
+
+                <div class="about-card">
+                    <h3>Key Features</h3>
+                    <div class="feature-grid">
+                        <div class="feature-item">
+                            <div class="feature-icon">📋</div>
+                            <h4>Live Flight Board</h4>
+                            <p>Real-time departure and arrival information from airports worldwide, updated every 60 seconds.</p>
+                        </div>
+                        <div class="feature-item">
+                            <div class="feature-icon">🔍</div>
+                            <h4>Flight Tracker</h4>
+                            <p>Track specific flights by number to get real-time status, gate info, and aircraft details.</p>
+                        </div>
+                        <div class="feature-item">
+                            <div class="feature-icon">🗺️</div>
+                            <h4>Route Planner</h4>
+                            <p>Calculate optimal routes between airports with distance, duration, and airline information.</p>
+                        </div>
+                        <div class="feature-item">
+                            <div class="feature-icon">🌓</div>
+                            <h4>Dark Mode</h4>
+                            <p>Toggle between light and dark themes for comfortable viewing in any environment.</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="about-card">
+                    <h3>🛠️ Technology Stack</h3>
+                    <ul class="tech-list">
+                        <li><strong>Frontend:</strong> HTML, CSS, JavaScript</li>
+                        <li><strong>Design:</strong> Custom CSS with CSS variables</li>
+                        <li><strong>Data:</strong> RapidAPI AeroDataBox</li>
+                    </ul>
+                </div>
+
+                <div class="about-card">
+                    <h3>📊 Data Sources</h3>
+                    <ul class="tech-list">
+                        <li><a href="https://rapidapi.com/aedbx-aedbx/api/aerodatabox" target="_blank">RapidAPI AeroDataBox</a></li>
+                    </ul>
+                </div>
+
+                <div class="about-card">
+                    <h3>👨‍💻 Developer</h3>
+                    <p>Created by <a href="https://github.com/Peniel-source" target="_blank">Peniel-source</a> | <a href="mailto:p.obeng@alustudent.com">p.obeng@alustudent.com</a></p>
+                </div>
+
+                <div class="about-footer">
+                    <p>penworks.tech | © 2025 Web-Infra Summative</p>
+                </div>
+            </div>
+        </div>
+    </section>
+</div>
+
+<div id="flight-modal" class="modal-backdrop hidden">
+    <div class="modal">
+        <div class="modal-header">
+            <h3 id="modal-flight-title">Flight Details</h3>
+            <button class="close-btn" id="close-flight-modal">✕</button>
+        </div>
+        <div class="modal-body" id="modal-flight-content"></div>
+    </div>
+</div>
+
+<div id="loading" class="loading-overlay hidden">
+    <div class="loading-spinner"></div>
+    <p>Loading flight data...</p>
+</div>
+
+<div id="toast" class="toast hidden"></div>
+
+<script src="../BackEnd/utils.js"></script>
+<script src="../BackEnd/api.js"></script>
+<script src="app.js"></script>
+
+</body>
+</html>
