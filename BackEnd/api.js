@@ -1,5 +1,5 @@
 const API_CONFIG = {
-    KEY: '3a934937cfmsh060e53910db67acp10c86bjsn6d5f036040cd',
+    KEY: '',
     HOST: 'aerodatabox.p.rapidapi.com',
     BASE: 'https://aerodatabox.p.rapidapi.com',
     TIMEOUT: 15000,
