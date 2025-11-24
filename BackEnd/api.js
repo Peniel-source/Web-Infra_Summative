@@ -1,8 +1,6 @@
-require('dotenv').config();
 
-const apiKey= process.env.API_KEY;
 const API_CONFIG = {
-    KEY: apiKey,
+    KEY: window.AERODATA_API_KEY,
     HOST: 'aerodatabox.p.rapidapi.com',
     BASE: 'https://aerodatabox.p.rapidapi.com',
     TIMEOUT: 15000,
