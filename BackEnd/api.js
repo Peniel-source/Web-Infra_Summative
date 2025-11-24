@@ -1,5 +1,5 @@
 const API_CONFIG = {
-    KEY: '',
+    KEY: process.env.API_KEY,
     HOST: 'aerodatabox.p.rapidapi.com',
     BASE: 'https://aerodatabox.p.rapidapi.com',
     TIMEOUT: 15000,
@@ -389,3 +389,5 @@ function calculateArrivalTime(depTime) {
 }
 
 console.log('✈️ API loaded');
+
+module.exports = API_CONFIG;

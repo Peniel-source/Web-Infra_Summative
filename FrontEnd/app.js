@@ -1,3 +1,5 @@
+require('dotenv').config();
+
 let currentSection = 'board';
 let currentAirport = null;
 let currentBoardType = 'departures';
