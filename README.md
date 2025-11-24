@@ -62,11 +62,6 @@ This application serves travelers checking flight status, aviation enthusiasts t
 ```
 http://penworks.tech
 ```
-
-**Direct Server Access:**
-- Web Server 1: `http://[WEB01_IP]`
-- Web Server 2: `http://[WEB02_IP]`
-
 **Demo Video:** [Link to 2-minute demo video]
 
 ---
