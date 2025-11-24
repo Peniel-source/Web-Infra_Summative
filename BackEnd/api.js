@@ -1,5 +1,8 @@
+require('dotenv').config();
+
+const apiKey= process.env.API_KEY;
 const API_CONFIG = {
-    KEY: process.env.API_KEY,
+    KEY: apiKey,
     HOST: 'aerodatabox.p.rapidapi.com',
     BASE: 'https://aerodatabox.p.rapidapi.com',
     TIMEOUT: 15000,
@@ -18,7 +21,7 @@ const usage = {
 
 function track() {
     usage.calls++;
-    console.log(`📊 API Calls: ${usage.calls}/${usage.limit}`);
+    console.log(`API Calls: ${usage.calls}/${usage.limit}`);
     updateCounter(usage.calls);
     return usage.calls;
 }
@@ -390,4 +393,4 @@ function calculateArrivalTime(depTime) {
 
 console.log('✈️ API loaded');
 
-module.exports = API_CONFIG;
+// module.exports = API_CONFIG;

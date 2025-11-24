@@ -1,4 +1,4 @@
-require('dotenv').config();
+
 
 let currentSection = 'board';
 let currentAirport = null;
@@ -23,7 +23,7 @@ const flightModal = document.getElementById('flight-modal');
 const closeFlightModal = document.getElementById('close-flight-modal');
 
 document.addEventListener('DOMContentLoaded', () => {
-    console.log('🚀 Airport Hub initializing');
+    console.log('Airport Hub starting');
     initTheme();
     initListeners();
     setupAirportSearch();
@@ -31,7 +31,7 @@ document.addEventListener('DOMContentLoaded', () => {
     startClocks();
     loadFlightBoard();
     startAutoRefresh();
-    console.log('✅ Airport Hub ready');
+    console.log('Airport Hub ready');
 });
 
 function initTheme() {
@@ -403,7 +403,7 @@ function displayTrackedFlight(flight) {
     document.getElementById('tracked-aircraft').textContent = aircraftType;
 
     const icon = getAircraftIcon(aircraftType);
-    document.getElementById('aircraft-icon').textContent = icon;
+    document.getElementById('aircraft-icon').innerHTML = icon;
 
     document.getElementById('tracked-departure').textContent = flight.scheduledTime || '--:--';
     document.getElementById('tracked-arrival').textContent = flight.arrivalTime || 'N/A';
@@ -412,11 +412,40 @@ function displayTrackedFlight(flight) {
 }
 
 function getAircraftIcon(type) {
+    if (!type || type === 'Unknown Aircraft' || type === 'N/A') {
+        return 'No Image';
+    }
+
+    // Normalize the type string
     const t = type.toLowerCase();
-    if (t.includes('a380') || t.includes('747')) return '🛫';
-    if (t.includes('787') || t.includes('a350')) return '✈️';
-    if (t.includes('737') || t.includes('a320')) return '🛩️';
-    return '✈️';
+    let imageCode = null;
+
+    // Check for specific aircraft patterns
+    if (t.includes('a380')) imageCode = 'A380';
+    else if (t.includes('a350')) imageCode = 'A350';
+    else if (t.includes('a330')) imageCode = 'A330';
+    else if (t.includes('a320')) imageCode = 'A320';
+    else if (t.includes('a220')) imageCode = 'A220';
+    else if (t.includes('787')) imageCode = 'B787';
+    else if (t.includes('747')) imageCode = 'B747';
+    else if (t.includes('737')) imageCode = 'B737';
+    else if (t.includes('B767')) imageCode = 'B767';
+    else if (t.includes('B777')) imageCode = 'B777';
+    else {
+        // Try to extract aircraft code using regex (e.g., B777, A330)
+        const match = type.match(/([AB])\s*(\d{3,4})/i);
+        if (match) {
+            imageCode = match[1].toUpperCase() + match[2];
+        }
+    }
+
+    // If we found an aircraft code, return the image
+    if (imageCode) {
+        return `<img src="Images/${imageCode}.png" alt="${type}" style="width: 1.5rem; height: 1.5rem; object-fit: contain;" onerror="this.onerror=null;">`;
+    }
+
+    // Default fallback
+    return 'No image';
 }
 
-console.log('✈️ App loaded');
+console.log('App loaded');
