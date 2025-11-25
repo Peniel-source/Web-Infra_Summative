@@ -62,7 +62,7 @@ This application serves travelers checking flight status, aviation enthusiasts t
 ```
 http://penworks.tech
 ```
-**Demo Video:** [Link to 2-minute demo video]
+**Demo Video:** [https://youtu.be/wsgxVB7T2_w]
 
 ---
 
