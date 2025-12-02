@@ -1,0 +1,16 @@
+{
+  "name": "web-infra_summative",
+  "version": "1.0.0",
+  "description": "**Real-Time Flight Information & Intelligent Route Planning System**",
+  "main": "app.js",
+  "scripts": {
+    "dev": "vite",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+    "vite": "^7.2.6"
+  }
+}

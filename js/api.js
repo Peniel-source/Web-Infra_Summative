@@ -1,6 +1,7 @@
-
+import {loadEnv} from "vite";
+process.env = loadEnv("dev", process.cwd())
 const API_CONFIG = {
-    KEY: window.AERODATA_API_KEY,
+    KEY: process.env.API_KEY,
     HOST: 'aerodatabox.p.rapidapi.com',
     BASE: 'https://aerodatabox.p.rapidapi.com',
     TIMEOUT: 15000,
