@@ -127,7 +127,7 @@ function transform(flight) {
     }
 }
 
-async function getFlights(code, type = 'departures') {
+export async function getFlights(code, type = 'departures') {
     if (!code) {
         return { success: false, error: 'Enter an airport code' };
     }
