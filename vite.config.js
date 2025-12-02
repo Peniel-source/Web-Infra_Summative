@@ -7,15 +7,11 @@ export default defineConfig({
     outDir: 'dist',
     rollupOptions: {
       external: [
-        // Added to fix the current "fsevents" error
+        // Only keeping the minimum external fixes necessary for stability
         'fsevents',
-
-        // These were previously necessary fixes for your Vite version
         'node:fs',
         'node:path',
-        'node:url',
-        'node:util',
-        'node:process'
+        'node:process',
       ],
     }
   }

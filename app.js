@@ -1,4 +1,4 @@
-import { getFlights } from './js/api.js';
+
 
 let currentSection = 'board';
 let currentAirport = null;

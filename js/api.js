@@ -1,9 +1,7 @@
-import {loadEnv} from "vite";
-process.env = loadEnv("dev", process.cwd())
 const API_CONFIG = {
-    KEY: process.env.API_KEY,
+    KEY: '', // Not needed anymore - HAProxy adds it
     HOST: 'aerodatabox.p.rapidapi.com',
-    BASE: 'https://aerodatabox.p.rapidapi.com',
+    BASE: '/api',
     TIMEOUT: 15000,
     CACHE: 120000
 };
@@ -75,8 +73,6 @@ async function fetchTimeout(url, opts = {}, timeout = API_CONFIG.TIMEOUT) {
 
 function headers() {
     return {
-        'X-RapidAPI-Key': API_CONFIG.KEY,
-        'X-RapidAPI-Host': API_CONFIG.HOST,
         'Accept': 'application/json'
     };
 }
@@ -127,7 +123,7 @@ function transform(flight) {
     }
 }
 
-export async function getFlights(code, type = 'departures') {
+async function getFlights(code, type = 'departures') {
     if (!code) {
         return { success: false, error: 'Enter an airport code' };
     }
