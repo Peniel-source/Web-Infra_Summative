@@ -1,8 +1,7 @@
-# Sensitive files
-.env
-
-# Dependencies and cache files
+# Directories to ignore
 /node_modules
-dist
-.vite/
-npm-debug.log
+/dist
+
+# Files to ignore
+package-lock.json
+.env
