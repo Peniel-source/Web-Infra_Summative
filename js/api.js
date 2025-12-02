@@ -1,5 +1,5 @@
 const API_CONFIG = {
-    KEY: '', // Not needed anymore - HAProxy adds it
+    KEY: '', 
     HOST: 'aerodatabox.p.rapidapi.com',
     BASE: '/api',
     TIMEOUT: 15000,
