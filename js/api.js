@@ -13,7 +13,7 @@ const cache = {
 
 const usage = {
     calls: 0,
-    limit: 2500
+    limit: 10
 };
 
 function track() {
