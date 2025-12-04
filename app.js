@@ -1,5 +1,3 @@
-
-
 let currentSection = 'board';
 let currentAirport = null;
 let currentBoardType = 'departures';
@@ -402,8 +400,12 @@ function displayTrackedFlight(flight) {
     const aircraftType = flight.aircraft || 'Unknown Aircraft';
     document.getElementById('tracked-aircraft').textContent = aircraftType;
 
-    const icon = getAircraftIcon(aircraftType);
-    document.getElementById('aircraft-icon').innerHTML = icon;
+    // Display aircraft image - MUCH BIGGER NOW
+    const aircraftDisplay = getAircraftImageHTML(aircraftType);
+    const logoDiv = document.querySelector('.airline-logo');
+    if (logoDiv) {
+        logoDiv.innerHTML = aircraftDisplay;
+    }
 
     document.getElementById('tracked-departure').textContent = flight.scheduledTime || '--:--';
     document.getElementById('tracked-arrival').textContent = flight.arrivalTime || 'N/A';
@@ -411,9 +413,9 @@ function displayTrackedFlight(flight) {
     document.getElementById('tracked-terminal').textContent = flight.terminal || 'N/A';
 }
 
-function getAircraftIcon(type) {
+function getAircraftImageHTML(type) {
     if (!type || type === 'Unknown Aircraft' || type === 'N/A') {
-        return 'No Image';
+        return '<span style="font-size: 2rem;">✈️</span>';
     }
 
     // Normalize the type string
@@ -429,8 +431,8 @@ function getAircraftIcon(type) {
     else if (t.includes('787')) imageCode = 'B787';
     else if (t.includes('747')) imageCode = 'B747';
     else if (t.includes('737')) imageCode = 'B737';
-    else if (t.includes('B767')) imageCode = 'B767';
-    else if (t.includes('B777')) imageCode = 'B777';
+    else if (t.includes('767')) imageCode = 'B767';
+    else if (t.includes('777')) imageCode = 'B777';
     else {
         // Try to extract aircraft code using regex (e.g., B777, A330)
         const match = type.match(/([AB])\s*(\d{3,4})/i);
@@ -439,13 +441,30 @@ function getAircraftIcon(type) {
         }
     }
 
-    // If we found an aircraft code, return the image
+    // If we found an aircraft code, return the BIG image
     if (imageCode) {
-        return `<img src="Images/${imageCode}.png" alt="${type}" style="width: 1.5rem; height: 1.5rem; object-fit: contain;" onerror="this.onerror=null;">`;
+        return `
+            <img 
+                src="Images/${imageCode}.png" 
+                alt="${type}" 
+                style="
+                    width: 100%; 
+                    height: 100%; 
+                    object-fit: contain;
+                    border-radius: 0.5rem;
+                " 
+                onerror="this.style.display='none'; this.parentElement.innerHTML='<span style=\\'font-size: 2rem;\\'>✈️</span>';"
+            >
+        `;
     }
 
-    // Default fallback
-    return 'No image';
+    // Default fallback - airplane emoji
+    return '<span style="font-size: 2rem;">✈️</span>';
+}
+
+// Keep old function for backward compatibility
+function getAircraftIcon(type) {
+    return getAircraftImageHTML(type);
 }
 
 console.log('App loaded');
