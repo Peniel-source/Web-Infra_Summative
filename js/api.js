@@ -1,6 +1,6 @@
 const API_CONFIG = {
-    KEY: '', 
-    HOST: 'aerodatabox.p.rapidapi.com',
+    KEY: '',  
+    HOST: window.location.hostname,   
     BASE: '/api',
     TIMEOUT: 15000,
     CACHE: 120000
@@ -143,11 +143,14 @@ async function getFlights(code, type = 'departures') {
 
         const url = `https://${API_CONFIG.HOST}${API_CONFIG.BASE}/flights/airports/iata/${code}/${from}/${to}?withLeg=false&withCancelled=true&withCodeshared=true&withCargo=false&withPrivate=false`;
 
+        console.log('🔗 Requesting:', url);
+
         const res = await fetchTimeout(url, { method: 'GET', headers: headers() });
         track();
 
         if (!res.ok) {
             const err = await res.text();
+            console.error('❌ API Response:', err);
             throw new Error(`API Error ${res.status}: ${err}`);
         }
 
@@ -198,11 +201,15 @@ async function searchAirports(query) {
         }
 
         const url = `https://${API_CONFIG.HOST}${API_CONFIG.BASE}/airports/search/term?q=${encodeURIComponent(query)}&limit=20`;
+        
+        console.log('🔗 Requesting:', url);
+        
         const res = await fetchTimeout(url, { method: 'GET', headers: headers() });
         track();
 
         if (!res.ok) {
             const err = await res.text();
+            console.error('❌ API Response:', err);
             throw new Error(`API Error ${res.status}`);
         }
 
@@ -386,6 +393,6 @@ function calculateArrivalTime(depTime) {
     }
 }
 
-console.log('✈️ API loaded');
+console.log('✈️ API loaded - Using proxy at', API_CONFIG.HOST);
 
 // module.exports = API_CONFIG;
