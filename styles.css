@@ -1091,54 +1091,49 @@ body.dark-mode .aircraft-type {
     font-weight: 700;
 }
 
+/* MOBILE RESPONSIVE STYLES */
 @media (max-width: 768px) {
-    .board-header,
-    .flight-row {
-        grid-template-columns: 70px 90px 1fr 50px;
-        gap: 0.5rem;
+    /* Better header on mobile */
+    #app-header {
+        padding: 0 1rem;
+        height: 3.5rem;
     }
 
-    .flight-airline,
-    .col-airline {
+    .brand-title {
+        font-size: 1rem;
+    }
+
+    .brand-subtitle {
         display: none;
     }
 
-    .airport-stats {
-        grid-template-columns: 1fr;
+    .header-status {
+        gap: 0.75rem;
     }
 
-    .section-container {
-        padding: 1rem;
-    }
-
-    .board-controls {
-        flex-direction: column;
-        align-items: stretch;
-    }
-
-    .flight-route {
-        grid-template-columns: 1fr;
-        gap: 1rem;
-    }
-
-    .route-line::before {
+    /* Keep local time visible on mobile */
+    .live-clock:first-of-type {
         display: none;
     }
 
-    .route-plane {
-        transform: rotate(90deg);
+    /* Better navigation on mobile */
+    .main-nav {
+        padding: 0 0.5rem;
+        overflow-x: auto;
+        -webkit-overflow-scrolling: touch;
     }
 
-    .flight-details-grid {
-        grid-template-columns: 1fr;
+    .nav-btn {
+        padding: 0.75rem 1rem;
+        font-size: 0.8125rem;
+        white-space: nowrap;
+        min-width: fit-content;
     }
-}
 
+    .nav-icon {
+        font-size: 1rem;
+    }
 
-/* Add these mobile improvements to your styles.css */
-
-/* Better mobile flight board */
-@media (max-width: 768px) {
     /* Hide less important columns on mobile */
     .board-header,
     .flight-row {
@@ -1147,7 +1142,7 @@ body.dark-mode .aircraft-type {
         font-size: 0.75rem;
     }
 
-    /* Hide airline and gate columns on very small screens */
+    /* Hide airline and gate columns */
     .col-airline,
     .col-gate,
     .flight-airline,
@@ -1178,62 +1173,6 @@ body.dark-mode .aircraft-type {
         height: 1.5rem;
         padding: 0 0.5rem;
         font-size: 0.625rem;
-    }
-
-    /* Better header on mobile */
-    #app-header {
-        padding: 0 1rem;
-        height: 3.5rem;
-    }
-
-    .brand-title {
-        font-size: 1rem;
-    }
-
-    .brand-subtitle {
-        display: none; /* Hide subtitle on mobile */
-    }
-
-    .header-status {
-        gap: 0.75rem;
-    }
-
-    .live-clock {
-        display: none; /* Hide clocks on very small screens */
-    }
-
-    /* Show only one clock on medium mobile */
-    @media (min-width: 400px) {
-        .live-clock:first-of-type {
-            display: block;
-        }
-    }
-
-    /* Better navigation on mobile */
-    .main-nav {
-        padding: 0 0.5rem;
-        overflow-x: auto;
-        -webkit-overflow-scrolling: touch;
-    }
-
-    .nav-btn {
-        padding: 0.75rem 0.75rem;
-        font-size: 0.75rem;
-        white-space: nowrap;
-    }
-
-    .nav-icon {
-        font-size: 1rem;
-    }
-
-    .nav-label {
-        display: none; /* Hide labels, show only icons */
-    }
-
-    @media (min-width: 480px) {
-        .nav-label {
-            display: inline; /* Show labels on slightly larger screens */
-        }
     }
 
     /* Better airport selector on mobile */
@@ -1278,6 +1217,17 @@ body.dark-mode .aircraft-type {
     .stat-icon {
         font-size: 1.25rem;
         margin-bottom: 0.5rem;
+    }
+
+    /* Section container */
+    .section-container {
+        padding: 1rem;
+    }
+
+    /* Board controls */
+    .board-controls {
+        flex-direction: column;
+        align-items: stretch;
     }
 
     /* Flight tracker improvements */
@@ -1339,6 +1289,10 @@ body.dark-mode .aircraft-type {
         grid-template-columns: 1fr;
         gap: 0.75rem;
     }
+
+    .flight-details-grid {
+        grid-template-columns: 1fr;
+    }
 }
 
 /* Very small screens (< 380px) */
@@ -1356,3 +1310,9 @@ body.dark-mode .aircraft-type {
     .airport-stats {
         grid-template-columns: 1fr;
     }
+
+    /* Keep local time visible */
+    .live-clock:last-of-type {
+        display: block;
+    }
+}
