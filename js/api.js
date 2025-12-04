@@ -141,7 +141,7 @@ async function getFlights(code, type = 'departures') {
         const from = current.toISOString().slice(0, 16);
         const to = new Date(current.getTime() + (12 * 60 * 60 * 1000)).toISOString().slice(0, 16);
 
-        const url = `${API_CONFIG.BASE}/flights/airports/iata/${code}/${from}/${to}?withLeg=false&withCancelled=true&withCodeshared=true&withCargo=false&withPrivate=false`;
+        const url = `https://${API_CONFIG.HOST}${API_CONFIG.BASE}/flights/airports/iata/${code}/${from}/${to}?withLeg=false&withCancelled=true&withCodeshared=true&withCargo=false&withPrivate=false`;
 
         const res = await fetchTimeout(url, { method: 'GET', headers: headers() });
         track();
@@ -197,7 +197,7 @@ async function searchAirports(query) {
             return cache.airports[key];
         }
 
-        const url = `${API_CONFIG.BASE}/airports/search/term?q=${encodeURIComponent(query)}&limit=20`;
+        const url = `https://${API_CONFIG.HOST}${API_CONFIG.BASE}/airports/search/term?q=${encodeURIComponent(query)}&limit=20`;
         const res = await fetchTimeout(url, { method: 'GET', headers: headers() });
         track();
 
